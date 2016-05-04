@@ -25,7 +25,7 @@
 + (instancetype)normalCellForTitle:(NSString *)title rightValue:(NSString *)rightValue
 {
     PPTableViewCellInfo *cellInfo = [PPTableViewCellInfo normalCellForSel:nil target:nil title:title rightValue:rightValue accessoryType:0];
-    [cellInfo setSelectionStyle:0];
+    [cellInfo setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cellInfo;
 }
 
