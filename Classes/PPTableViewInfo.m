@@ -9,6 +9,7 @@
 #import "PPTableViewInfo.h"
 #import "PPTableViewSectionInfo.h"
 #import "PPTableViewCellInfo.h"
+#import "NSString+PPUtility.h"
 
 @interface PPTableViewInfo () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -40,7 +41,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PPTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"11"];
+    NSString *identifier = [NSString stringWithFormat:@"PPTableViewInfo_%ld_%f", cellInfo.cellStyle, cellInfo.fCellHeight];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell) {
         [self removeAllSubviewsWithView:cell.contentView];
         cell.textLabel.text = @"";
@@ -48,13 +50,21 @@
         cell.imageView.image = nil;
         cell.accessoryView = nil;
     } else {
-        cell = [[UITableViewCell alloc] initWithStyle:cellInfo.cellStyle reuseIdentifier:@"11"];
+        cell = [[UITableViewCell alloc] initWithStyle:cellInfo.cellStyle reuseIdentifier:identifier];
     }
-    cellInfo.cell = cell;
-    if ([cellInfo makeTarget]) {
-        if ([cellInfo respondsToSelector:[cellInfo makeSel]]) {
-            [cellInfo performSelector:[cellInfo makeSel] withObject:cell];
+    if (cellInfo.makeTarget) {
+        if ([cellInfo respondsToSelector:cellInfo.makeSel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [cellInfo performSelector:cellInfo.makeSel withObject:cell withObject:cellInfo];
+#pragma clang diagnostic pop
         }
+        if (cellInfo.bNeedSeperateLine && tableView.separatorStyle == UITableViewCellSeparatorStyleNone) {
+            if (indexPath.row == 0) {
+                
+            }
+        }
+        cellInfo.cell = cell;
     }
     
     return cell;
@@ -67,7 +77,10 @@
         id target = sectionInfo.makeHeaderTarget;
         if (target) {
             if ([target respondsToSelector:sectionInfo.makeHeaderSel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 return [target performSelector:sectionInfo.makeHeaderSel withObject:sectionInfo];
+#pragma clang diagnostic pop
             }
         }
     }
@@ -80,7 +93,10 @@
         PPTableViewSectionInfo *sectionInfo = _arrSections[section];
         if (sectionInfo.makeFooterTatget) {
             if ([sectionInfo respondsToSelector:sectionInfo.makeFooterSel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 return [sectionInfo performSelector:sectionInfo.makeFooterSel withObject:sectionInfo];
+#pragma clang diagnostic pop
             }
         }
     }
@@ -108,7 +124,7 @@
     if (section < _arrSections.count) {
         NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
         if (headerTitle) {
-            return [self labelHeight:headerTitle maxWidth:_tableView.frame.size.width maxHeight:CGFLOAT_MAX font:[UIFont systemFontOfSize:17.0f]];
+            return [headerTitle sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
         } else {
             PPTableViewSectionInfo *sectionInfo = _arrSections[section];
             if (!sectionInfo.makeHeaderTarget) {
@@ -131,7 +147,7 @@
     if (section < _arrSections.count) {
         NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
         if (footerTitle) {
-            return [self labelHeight:footerTitle maxWidth:_tableView.frame.size.width maxHeight:CGFLOAT_MAX font:[UIFont systemFontOfSize:17.0f]];
+            return [footerTitle sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
         } else {
             PPTableViewSectionInfo *sectionInfo = _arrSections[section];
             if (sectionInfo.makeFooterTatget) {
@@ -168,7 +184,10 @@
             id target = cellInfo.actionTarget;
             if (target) {
                 if ([target respondsToSelector:cellInfo.actionSel]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                     [target performSelector:cellInfo.actionSel withObject:cellInfo];
+#pragma clang diagnostic pop
                 }
             }
         }
@@ -200,27 +219,23 @@
     }
 }
 
+- (PPTableViewSectionInfo *)getSectionAt:(NSUInteger)section
+{
+    if (section < _arrSections.count) {
+        return _arrSections[section];
+    }
+    return nil;
+}
+
 - (UITableView *)getTableView
 {
     return _tableView;
 }
 
-- (CGFloat)labelHeight:(NSString *)text maxWidth:(CGFloat)maxWidth maxHeight:(CGFloat)maxHeight font:(UIFont *)font
-{
-    if (text.length) {
-        NSDictionary *attributes = @{NSFontAttributeName : font};
-        CGSize maxSize = CGSizeMake(maxWidth, maxHeight);
-        return [text boundingRectWithSize:maxSize
-                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                               attributes:attributes
-                                  context:nil].size.height;
-    } else {
-        return CGFLOAT_MIN;
-    }
-}
-
 - (void)removeAllSubviewsWithView:(UIView *)view
 {
-    
+    for (UIView *subview in view.subviews) {
+        [subview removeFromSuperview];
+    }
 }
 @end

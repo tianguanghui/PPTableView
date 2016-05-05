@@ -23,7 +23,7 @@
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addUserInfoValue:headerTitle forKey:@"headerTitle"];
     if (headerTitle.length) {
-        [sectionInfo setFHeaderHeight:44.0f];
+        [sectionInfo setFHeaderHeight:10.0f];
     }
     return sectionInfo;
 }
@@ -33,7 +33,7 @@
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addUserInfoValue:footerTitle forKey:@"footerTitle"];
     if (footerTitle.length) {
-        [sectionInfo setFFooterHeight:44.0f];
+        [sectionInfo setFFooterHeight:10.0f];
     }
     return sectionInfo;
 }
@@ -43,11 +43,11 @@
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addUserInfoValue:headerTitle forKey:@"headerTitle"];
     if (headerTitle.length) {
-        [sectionInfo setFHeaderHeight:44.0f];
+        [sectionInfo setFHeaderHeight:10.0f];
     }
     [sectionInfo addUserInfoValue:footerTitle forKey:@"footerTitle"];
     if (footerTitle.length) {
-        [sectionInfo setFFooterHeight:44.0f];
+        [sectionInfo setFFooterHeight:10.0f];
     }
     return sectionInfo;
 }
