@@ -2,11 +2,11 @@
 //  NSString+PPUtility.m
 //  PPTableView
 //
-//  Created by bz on 16/5/5.
+//  Created by 池鹏鹏 on 16/5/5.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "NSString+PPUtility.h"
+#import "PPUtility.h"
 
 @implementation NSString (PPUtility)
 - (CGSize)sizeWithFont:(UIFont *)font maxWidth:(CGFloat)maxWidth maxHeight:(CGFloat)maxHeight
@@ -22,4 +22,9 @@
         return CGSizeZero;
     }
 }
+@end
+
+
+@implementation PPCPLabel
+
 @end

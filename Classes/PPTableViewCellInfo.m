@@ -7,7 +7,7 @@
 //
 
 #import "PPTableViewCellInfo.h"
-#import "NSString+PPUtility.h"
+#import "PPUtility.h"
 
 @implementation PPTableViewCellInfo
 
@@ -161,6 +161,7 @@
         }
     }
     if (leftValue.length) {
+        PPCPLabel *leftLabel = [[PPCPLabel alloc] init];
         if (leftValueColor) {
             
         }

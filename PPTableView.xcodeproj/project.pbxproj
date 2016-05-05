@@ -17,7 +17,7 @@
 		22720E151CD9D128007752F4 /* PPTableViewInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E0E1CD9D128007752F4 /* PPTableViewInfo.m */; };
 		22720E161CD9D128007752F4 /* PPTableViewSectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E101CD9D128007752F4 /* PPTableViewSectionInfo.m */; };
 		22720E171CD9D128007752F4 /* PPTableViewUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E121CD9D128007752F4 /* PPTableViewUserInfo.m */; };
-		22720E1A1CDB2352007752F4 /* NSString+PPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E191CDB2352007752F4 /* NSString+PPUtility.m */; };
+		22720E1A1CDB2352007752F4 /* PPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E191CDB2352007752F4 /* PPUtility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +40,8 @@
 		22720E101CD9D128007752F4 /* PPTableViewSectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewSectionInfo.m; sourceTree = "<group>"; };
 		22720E111CD9D128007752F4 /* PPTableViewUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableViewUserInfo.h; sourceTree = "<group>"; };
 		22720E121CD9D128007752F4 /* PPTableViewUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewUserInfo.m; sourceTree = "<group>"; };
-		22720E181CDB2352007752F4 /* NSString+PPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PPUtility.h"; sourceTree = "<group>"; };
-		22720E191CDB2352007752F4 /* NSString+PPUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PPUtility.m"; sourceTree = "<group>"; };
+		22720E181CDB2352007752F4 /* PPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUtility.h; sourceTree = "<group>"; };
+		22720E191CDB2352007752F4 /* PPUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUtility.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +108,8 @@
 				22720E101CD9D128007752F4 /* PPTableViewSectionInfo.m */,
 				22720E111CD9D128007752F4 /* PPTableViewUserInfo.h */,
 				22720E121CD9D128007752F4 /* PPTableViewUserInfo.m */,
-				22720E181CDB2352007752F4 /* NSString+PPUtility.h */,
-				22720E191CDB2352007752F4 /* NSString+PPUtility.m */,
+				22720E181CDB2352007752F4 /* PPUtility.h */,
+				22720E191CDB2352007752F4 /* PPUtility.m */,
 			);
 			path = Classes;
 			sourceTree = SOURCE_ROOT;
@@ -190,7 +190,7 @@
 				22720E161CD9D128007752F4 /* PPTableViewSectionInfo.m in Sources */,
 				22720E151CD9D128007752F4 /* PPTableViewInfo.m in Sources */,
 				22720DE11CD9D0E2007752F4 /* main.m in Sources */,
-				22720E1A1CDB2352007752F4 /* NSString+PPUtility.m in Sources */,
+				22720E1A1CDB2352007752F4 /* PPUtility.m in Sources */,
 				22720E171CD9D128007752F4 /* PPTableViewUserInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

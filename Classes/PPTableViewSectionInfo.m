@@ -23,7 +23,7 @@
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addUserInfoValue:headerTitle forKey:@"headerTitle"];
     if (headerTitle.length) {
-        [sectionInfo setFHeaderHeight:10.0f];
+        [sectionInfo setFHeaderHeight:-1.0f];
     }
     return sectionInfo;
 }
@@ -33,7 +33,7 @@
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addUserInfoValue:footerTitle forKey:@"footerTitle"];
     if (footerTitle.length) {
-        [sectionInfo setFFooterHeight:10.0f];
+        [sectionInfo setFFooterHeight:-1.0f];
     }
     return sectionInfo;
 }
@@ -43,11 +43,11 @@
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addUserInfoValue:headerTitle forKey:@"headerTitle"];
     if (headerTitle.length) {
-        [sectionInfo setFHeaderHeight:10.0f];
+        [sectionInfo setFHeaderHeight:-1.0f];
     }
     [sectionInfo addUserInfoValue:footerTitle forKey:@"footerTitle"];
     if (footerTitle.length) {
-        [sectionInfo setFFooterHeight:10.0f];
+        [sectionInfo setFFooterHeight:-1.0f];
     }
     return sectionInfo;
 }
@@ -79,6 +79,10 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        _makeHeaderSel = nil;
+        _makeFooterSel = nil;
+        _fHeaderHeight = 0;
+        _fFooterHeight = 0;
         _arrCells = @[].mutableCopy;
     }
     return self;
@@ -88,7 +92,7 @@
 {
     [self addUserInfoValue:headerTitle forKey:@"headerTitle"];
     if (headerTitle.length) {
-        [self setFHeaderHeight:20.0f];
+        [self setFHeaderHeight:-1.0f];
     }
 }
 
@@ -96,7 +100,7 @@
 {
     [self addUserInfoValue:footerTitle forKey:@"footerTitle"];
     if (footerTitle.length) {
-        [self setFFooterHeight:20.0f];
+        [self setFFooterHeight:-1.0f];
     }
 }
 

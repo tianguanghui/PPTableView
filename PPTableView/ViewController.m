@@ -25,6 +25,9 @@
     [self createNormalSection];
     [self createSwitchSection];
     [self createEdtiorSection];
+//    int i = 0x2800;
+//    float f = *(float *)&i;
+////    CGFloat iii = f 
 }
 
 - (void)createNormalSection

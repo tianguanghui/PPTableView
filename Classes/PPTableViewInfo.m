@@ -9,7 +9,7 @@
 #import "PPTableViewInfo.h"
 #import "PPTableViewSectionInfo.h"
 #import "PPTableViewCellInfo.h"
-#import "NSString+PPUtility.h"
+#import "PPUtility.h"
 
 @interface PPTableViewInfo () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
