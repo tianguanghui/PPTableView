@@ -28,6 +28,7 @@
     return self;
 }
 
+#pragma mark - UITableView DataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _arrSections.count;
@@ -54,10 +55,7 @@
     }
     if (cellInfo.makeTarget) {
         if ([cellInfo respondsToSelector:cellInfo.makeSel]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [cellInfo performSelector:cellInfo.makeSel withObject:cell withObject:cellInfo];
-#pragma clang diagnostic pop
+            NoWarningPerformSelector(cellInfo, cellInfo.makeSel, cell);
         }
         if (cellInfo.bNeedSeperateLine && tableView.separatorStyle == UITableViewCellSeparatorStyleNone) {
             if (indexPath.row == 0) {
@@ -68,39 +66,6 @@
     }
     
     return cell;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section < _arrSections.count) {
-        PPTableViewSectionInfo *sectionInfo = _arrSections[section];
-        id target = sectionInfo.makeHeaderTarget;
-        if (target) {
-            if ([target respondsToSelector:sectionInfo.makeHeaderSel]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                return [target performSelector:sectionInfo.makeHeaderSel withObject:sectionInfo];
-#pragma clang diagnostic pop
-            }
-        }
-    }
-    return nil;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if (section < _arrSections.count) {
-        PPTableViewSectionInfo *sectionInfo = _arrSections[section];
-        if (sectionInfo.makeFooterTatget) {
-            if ([sectionInfo respondsToSelector:sectionInfo.makeFooterSel]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                return [sectionInfo performSelector:sectionInfo.makeFooterSel withObject:sectionInfo];
-#pragma clang diagnostic pop
-            }
-        }
-    }
-    return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -115,6 +80,69 @@
 {
     if (section < _arrSections.count) {
         return [_arrSections[section] getUserInfoValueForKey:@"footerTitle"];
+    }
+    return nil;
+}
+
+#pragma mark - UITableView Delegate
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section < _arrSections.count) {
+        PPTableViewSectionInfo *sectionInfo = _arrSections[section];
+        id target = sectionInfo.makeHeaderTarget;
+        if (target) {
+            if ([target respondsToSelector:sectionInfo.makeHeaderSel]) {
+                return NoWarningPerformSelector(target, sectionInfo.makeHeaderSel, sectionInfo);
+            } else {
+                NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
+                if (headerTitle) {
+                    return [PPTableViewInfo genHeaderView:headerTitle andIsUseDynamic:sectionInfo.bUseDynamicSize];
+                }
+            }
+        } else {
+            UIView *headerView =  [sectionInfo getUserInfoValueForKey:@"header"];
+            if (headerView) {
+                return headerView;
+            } else if ([sectionInfo respondsToSelector:sectionInfo.makeHeaderSel]) {
+                return NoWarningPerformSelector(sectionInfo, sectionInfo.makeHeaderSel, sectionInfo);
+            } else {
+                NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
+                if (headerTitle) {
+                    return [PPTableViewInfo genHeaderView:headerTitle andIsUseDynamic:sectionInfo.bUseDynamicSize];
+                }
+            }
+        }
+    }
+    return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section < _arrSections.count) {
+        PPTableViewSectionInfo *sectionInfo = _arrSections[section];
+        id target = sectionInfo.makeFooterTatget;
+        if (target) {
+            if ([target respondsToSelector:sectionInfo.makeFooterSel]) {
+                return NoWarningPerformSelector(target, sectionInfo.makeFooterSel, sectionInfo);
+            } else {
+                NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
+                if (footerTitle) {
+                    return [PPTableViewInfo genFooterView:footerTitle];
+                }
+            }
+        } else {
+            UIView *footerView =  [sectionInfo getUserInfoValueForKey:@"footer"];
+            if (footerView) {
+                return footerView;
+            } else if ([sectionInfo respondsToSelector:sectionInfo.makeFooterSel]) {
+                return NoWarningPerformSelector(sectionInfo, sectionInfo.makeFooterSel, sectionInfo);
+            } else {
+                NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
+                if (footerTitle) {
+                    return [PPTableViewInfo genFooterView:footerTitle];
+                }
+            }
+        }
     }
     return nil;
 }
@@ -184,10 +212,7 @@
             id target = cellInfo.actionTarget;
             if (target) {
                 if ([target respondsToSelector:cellInfo.actionSel]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                    [target performSelector:cellInfo.actionSel withObject:cellInfo];
-#pragma clang diagnostic pop
+                    NoWarningPerformSelector(target, cellInfo.actionSel, cellInfo);
                 }
             }
         }
@@ -195,6 +220,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - Section
 - (void)addSection:(PPTableViewSectionInfo *)section
 {
     [_arrSections addObject:section];
@@ -237,5 +263,15 @@
     for (UIView *subview in view.subviews) {
         [subview removeFromSuperview];
     }
+}
+
++ (UIView *)genHeaderView:(NSString *)headerTitle andIsUseDynamic:(BOOL)dynamic
+{
+    return nil;
+}
+
++ (UIView *)genFooterView:(NSString *)footerTitle
+{
+    return nil;
 }
 @end

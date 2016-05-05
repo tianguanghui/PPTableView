@@ -17,6 +17,7 @@
 @property (nonatomic, weak) id makeFooterTatget;
 @property (nonatomic, assign) SEL makeHeaderSel;
 @property (nonatomic, assign) SEL makeFooterSel;
+@property (nonatomic, assign) BOOL bUseDynamicSize;
 
 + (instancetype)sectionInfoDefault;
 + (instancetype)sectionInfoHeader:(NSString *)headerTitle;
