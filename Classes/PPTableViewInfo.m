@@ -11,7 +11,7 @@
 #import "PPTableViewCellInfo.h"
 #import "PPUtility.h"
 
-@interface PPTableViewInfo () <UITableViewDelegate, UITableViewDataSource>
+@interface PPTableViewInfo () <UITableViewDelegate, UITableViewDataSource, PPTableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<PPTableViewSectionInfo *> *arrSections;
 @end
@@ -82,6 +82,31 @@
         return [_arrSections[section] getUserInfoValueForKey:@"footerTitle"];
     }
     return nil;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section < _arrSections.count) {
+        PPTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
+        if (cellInfo) {
+            if (cellInfo.editStyle != UITableViewCellEditingStyleNone) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section < _arrSections.count) {
+        PPTableViewCellInfo *cellInfo  = [self getCellAtSection:indexPath.section row:indexPath.row];
+        if (cellInfo) {
+            if ([_delegate respondsToSelector:@selector(commitEditingForRowAtIndexPath:cell:)]) {
+                [_delegate commitEditingForRowAtIndexPath:indexPath cell:cellInfo];
+            }
+        }
+    }
 }
 
 #pragma mark - UITableView Delegate
@@ -220,6 +245,100 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section < _arrSections.count) {
+        PPTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
+        if (cellInfo) {
+            if ([_delegate respondsToSelector:@selector(accessoryButtonTappedForRowWithIndexPath:cell:)]) {
+                [_delegate accessoryButtonTappedForRowWithIndexPath:indexPath cell:cellInfo];
+            }
+        }
+    }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section < _arrSections.count) {
+        PPTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
+        if (cellInfo) {
+            return cellInfo.editStyle;
+        }
+    }
+    return UITableViewCellEditingStyleNone;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section < _arrSections.count) {
+        PPTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
+        if (cellInfo) {
+            if (cellInfo.editStyle != UITableViewCellEditingStyleNone) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+#pragma mark - UIScrollView Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([_delegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
+        [_delegate scrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([_delegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+        [_delegate scrollViewWillBeginDragging:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if ([_delegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)]) {
+        [_delegate scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
+#pragma mark - PPTableViewDelegate
+- (void)touchesBegan_TableView:(NSSet *)set withEvent:(UIEvent *)event
+{
+    if ([_delegate respondsToSelector:@selector(touchesBegan_TableView:withEvent:)]) {
+        [_delegate touchesBegan_TableView:set withEvent:event];
+    }
+}
+
+- (void)touchesMoved_TableView:(NSSet *)set withEvent:(UIEvent *)event
+{
+    if ([_delegate respondsToSelector:@selector(touchesMoved_TableView:withEvent:)]) {
+        [_delegate touchesMoved_TableView:set withEvent:event];
+    }
+}
+
+- (void)touchesEnded_TableView:(NSSet *)set withEvent:(UIEvent *)event
+{
+    if ([_delegate respondsToSelector:@selector(touchesEnded_TableView:withEvent:)]) {
+        [_delegate touchesEnded_TableView:set withEvent:event];
+    }
+}
+
+- (void)touchesCancelled_TableView:(NSSet *)set withEvent:(UIEvent *)event
+{
+    if ([_delegate respondsToSelector:@selector(touchesCancelled_TableView:withEvent:)]) {
+        [_delegate touchesCancelled_TableView:set withEvent:event];
+    }
+}
+
+- (void)didFinishedLoading:(id)arg1
+{
+    if ([_delegate respondsToSelector:@selector(didFinishedLoading:)]) {
+        [_delegate didFinishedLoading:arg1];
+    }
+}
+
 #pragma mark - Section
 - (void)addSection:(PPTableViewSectionInfo *)section
 {
@@ -231,11 +350,29 @@
     [_arrSections removeAllObjects];
 }
 
+- (void)removeSectionAt:(NSUInteger)section
+{
+    if (_arrSections.count < section) {
+        return;
+    }
+    [_arrSections removeObjectAtIndex:section];
+    [_tableView deleteSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationFade];
+}
+
 - (NSUInteger)getSectionCount
 {
     return _arrSections.count;
 }
 
+- (PPTableViewSectionInfo *)getSectionAt:(NSUInteger)section
+{
+    if (section < _arrSections.count) {
+        return _arrSections[section];
+    }
+    return nil;
+}
+
+#pragma mark - Cell
 - (PPTableViewCellInfo *)getCellAtSection:(NSUInteger)section row:(NSUInteger)row
 {
     if (_arrSections.count >= section && [_arrSections[section] getCellCount] >= row) {
@@ -245,12 +382,15 @@
     }
 }
 
-- (PPTableViewSectionInfo *)getSectionAt:(NSUInteger)section
+- (void)removeCellAt:(NSIndexPath *)indexPath
 {
-    if (section < _arrSections.count) {
-        return _arrSections[section];
+    PPTableViewSectionInfo *sectionInfo = [self getSectionAt:indexPath.section];
+    [sectionInfo removeCellAt:indexPath.row];
+    if ([sectionInfo getCellCount]) {
+        [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [self removeSectionAt:indexPath.section];
     }
-    return nil;
 }
 
 - (UITableView *)getTableView

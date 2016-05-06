@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "PPTableView.h"
 
-@interface ViewController ()
+@interface ViewController () <PPTableViewInfoDelegate>
 @property (nonatomic, strong) PPTableViewInfo *tableViewInfo;
 @end
 
@@ -20,6 +20,7 @@
     [super viewDidLoad];
     
     _tableViewInfo = [[PPTableViewInfo alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    _tableViewInfo.delegate = self;
     [self.view addSubview:[_tableViewInfo getTableView]];
     
     [self createNormalSection];
