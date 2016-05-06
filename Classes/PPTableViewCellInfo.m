@@ -116,6 +116,75 @@
     return cellInfo;
 }
 
++ (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge
+{
+    PPTableViewCellInfo *cellInfo = [PPTableViewCellInfo normalCellForSel:sel target:target title:title rightValue:nil accessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [cellInfo addUserInfoValue:badge forKey:@"badge"];
+    return cellInfo;
+}
+
++ (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge rightValue:(NSString *)rightValue
+{
+    PPTableViewCellInfo *cellInfo = [PPTableViewCellInfo normalCellForSel:sel target:target title:title rightValue:badge accessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [cellInfo addUserInfoValue:badge forKey:@"badge"];
+    return cellInfo;
+}
+
++ (instancetype)badgeCellForSel:(SEL)sel target:(id)target title:(NSString *)title badge:(NSString *)badge rightValue:(NSString *)rightValue imageName:(NSString *)imageName
+{
+    PPTableViewCellInfo *cellInfo = [PPTableViewCellInfo normalCellForSel:sel target:target title:title rightValue:rightValue accessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [cellInfo addUserInfoValue:imageName forKey:@"imageName"];
+    [cellInfo addUserInfoValue:badge forKey:@"badge"];
+    return cellInfo;
+}
+
++ (instancetype)cellForMakeSel:(SEL)makeSel makeTarget:(id)makeTarget height:(CGFloat)height userInfo:(PPTableViewUserInfo *)userInfo
+{
+    PPTableViewCellInfo *cellInfo = [PPTableViewCellInfo cellForMakeSel:makeSel makeTarget:makeTarget actionSel:nil actionTarget:nil height:height userInfo:userInfo];
+    cellInfo.selectionStyle = UITableViewCellSelectionStyleNone;
+    cellInfo.accessoryType = UITableViewCellAccessoryNone;
+    return cellInfo;
+}
+
++ (instancetype)cellForMakeSel:(SEL)makeSel makeTarget:(id)makeTarget actionSel:(SEL)actionSel actionTarget:(id)actionTarget calHeightSel:(SEL)calHeightSel calHeightTarget:(id)calHeightTarget userInfo:(PPTableViewUserInfo *)userInfo
+{
+    PPTableViewCellInfo *cellInfo = [[PPTableViewCellInfo alloc] init];
+    cellInfo.makeSel = makeSel;
+    cellInfo.makeTarget = makeTarget;
+    cellInfo.actionSel = actionSel;
+    cellInfo.actionTarget = actionTarget;
+    cellInfo.calHeightSel = calHeightSel;
+    cellInfo.calHeightTarget = calHeightTarget;
+    cellInfo.userInfo = userInfo;
+    return cellInfo;
+}
+
++ (instancetype)cellForMakeSel:(SEL)makeSel makeTarget:(id)makeTarget actionSel:(SEL)actionSel actionTarget:(id)actionTarget height:(CGFloat)height userInfo:(PPTableViewUserInfo *)userInfo
+{
+    PPTableViewCellInfo *cellInfo = [[PPTableViewCellInfo alloc] init];
+    cellInfo.makeSel = makeSel;
+    cellInfo.makeTarget = makeTarget;
+    cellInfo.actionSel = actionSel;
+    cellInfo.actionTarget = actionTarget;
+    cellInfo.fCellHeight = height;
+    cellInfo.userInfo = userInfo;
+    return cellInfo;
+}
+
++ (instancetype)centerCellForSel:(SEL)sel target:(id)target title:(NSString *)title
+{
+    PPTableViewCellInfo *cellInfo = [[PPTableViewCellInfo alloc] init];
+    cellInfo.makeSel = @selector(makeCenterCell:);
+    cellInfo.makeTarget = cellInfo;
+    cellInfo.actionSel = sel;
+    cellInfo.actionTarget = target;
+    cellInfo.fCellHeight = 44.0f;
+    cellInfo.accessoryType = UITableViewCellAccessoryNone;
+    cellInfo.cellStyle = UITableViewCellStyleDefault;
+    [cellInfo addUserInfoValue:title forKey:@"title"];
+    return cellInfo;
+}
+
 - (void)makeNormalCell:(UITableViewCell *)cell
 {
     NSString *title = [self getUserInfoValueForKey:@"title"];
@@ -161,8 +230,10 @@
         }
     }
     if (leftValue.length) {
+        CGFloat margin = [[self getUserInfoValueForKey:@"fLeftValueMargin"] floatValue];
         PPCPLabel *leftLabel = [[PPCPLabel alloc] init];
         if (leftValueColor) {
+            
             
         }
     }
@@ -197,7 +268,7 @@
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     if (title.length) {
         cell.textLabel.text = title;
-        left += [title sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:screenWidth maxHeight:CGFLOAT_MAX].width + margin + 15.0f;
+        left += [title pp_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:screenWidth maxHeight:CGFLOAT_MAX].width + margin + 15.0f;
     }
     CGRect textFieldFrame = CGRectMake(left, 0, screenWidth - left, cell.bounds.size.height);
     UITextField *textField = [[UITextField alloc] initWithFrame:textFieldFrame];
@@ -226,6 +297,16 @@
     [self addUserInfoValue:textField forKey:@"editor"];
 }
 
+- (void)makeCenterCell:(UITableViewCell *)cell
+{
+    NSString *title = [self getUserInfoValueForKey:@"title"];
+    cell.textLabel.text = title;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:17.0f];
+    cell.selectionStyle = _selectionStyle;
+    cell.accessoryType = _accessoryType;
+}
+
 - (void)actionSwitchCell:(UISwitch *)switchView
 {
     [self addUserInfoValue:@(switchView.isOn) forKey:@"on"];
@@ -240,4 +321,13 @@
     }
 }
 
+- (void)actionUrlInnerCell
+{
+    
+}
+
+- (void)actionUrlCell
+{
+    
+}
 @end

@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @interface PPTableViewUserInfo : NSObject
+@property (nonatomic, strong) PPTableViewUserInfo *userInfo;
+
 - (__kindof instancetype)getUserInfoValueForKey:(NSString *)key;
 - (void)addUserInfoValue:(id)value forKey:(NSString *)key;
 @end

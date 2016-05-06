@@ -9,7 +9,7 @@
 #import "PPUtility.h"
 
 @implementation NSString (PPUtility)
-- (CGSize)sizeWithFont:(UIFont *)font maxWidth:(CGFloat)maxWidth maxHeight:(CGFloat)maxHeight
+- (CGSize)pp_sizeWithFont:(UIFont *)font maxWidth:(CGFloat)maxWidth maxHeight:(CGFloat)maxHeight
 {
     if (self.length) {
         NSDictionary *attributes = @{NSFontAttributeName : font};
@@ -24,7 +24,15 @@
 }
 @end
 
+@implementation UIView (PPUtility)
+- (void)pp_removeAllSubviews
+{
+    for (UIView *subview in self.subviews) {
+        [subview removeFromSuperview];
+    }
+}
 
+@end
 @implementation PPCPLabel
 
 @end

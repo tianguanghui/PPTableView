@@ -28,6 +28,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    _tableView.delegate = nil;
+    _tableView.dataSource = nil;
+}
+
 #pragma mark - UITableView DataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -42,10 +48,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PPTableViewCellInfo *cellInfo = [self getCellAtSection:indexPath.section row:indexPath.row];
-    NSString *identifier = [NSString stringWithFormat:@"PPTableViewInfo_%ld_%f", cellInfo.cellStyle, cellInfo.fCellHeight];
+    NSString *identifier = [NSString stringWithFormat:@"PPTableViewInfo_%zd_%f", cellInfo.cellStyle, cellInfo.fCellHeight];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell) {
-        [self removeAllSubviewsWithView:cell.contentView];
+        [cell.contentView pp_removeAllSubviews];
         cell.textLabel.text = @"";
         cell.detailTextLabel.text = @"";
         cell.imageView.image = nil;
@@ -54,17 +60,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:cellInfo.cellStyle reuseIdentifier:identifier];
     }
     if (cellInfo.makeTarget) {
-        if ([cellInfo respondsToSelector:cellInfo.makeSel]) {
-            NoWarningPerformSelector(cellInfo, cellInfo.makeSel, cell);
+        if ([cellInfo.makeTarget respondsToSelector:cellInfo.makeSel]) {
+            NoWarningPerformSelector(cellInfo.makeTarget, cellInfo.makeSel, cell, cellInfo);
         }
         if (cellInfo.bNeedSeperateLine && tableView.separatorStyle == UITableViewCellSeparatorStyleNone) {
             if (indexPath.row == 0) {
-                
+                UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 0.5f)];
+                line.backgroundColor = [UIColor grayColor];
+                [cell.contentView addSubview:line];
             }
         }
         cellInfo.cell = cell;
     }
-    
     return cell;
 }
 
@@ -117,7 +124,7 @@
         id target = sectionInfo.makeHeaderTarget;
         if (target) {
             if ([target respondsToSelector:sectionInfo.makeHeaderSel]) {
-                return NoWarningPerformSelector(target, sectionInfo.makeHeaderSel, sectionInfo);
+                return NoWarningPerformSelector(target, sectionInfo.makeHeaderSel, sectionInfo, nil);
             } else {
                 NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
                 if (headerTitle) {
@@ -128,8 +135,8 @@
             UIView *headerView =  [sectionInfo getUserInfoValueForKey:@"header"];
             if (headerView) {
                 return headerView;
-            } else if ([sectionInfo respondsToSelector:sectionInfo.makeHeaderSel]) {
-                return NoWarningPerformSelector(sectionInfo, sectionInfo.makeHeaderSel, sectionInfo);
+            } else if ([_delegate respondsToSelector:sectionInfo.makeHeaderSel]) {
+                return NoWarningPerformSelector(_delegate, sectionInfo.makeHeaderSel, sectionInfo, nil);
             } else {
                 NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
                 if (headerTitle) {
@@ -148,7 +155,7 @@
         id target = sectionInfo.makeFooterTatget;
         if (target) {
             if ([target respondsToSelector:sectionInfo.makeFooterSel]) {
-                return NoWarningPerformSelector(target, sectionInfo.makeFooterSel, sectionInfo);
+                return NoWarningPerformSelector(target, sectionInfo.makeFooterSel, sectionInfo, nil);
             } else {
                 NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
                 if (footerTitle) {
@@ -159,8 +166,8 @@
             UIView *footerView =  [sectionInfo getUserInfoValueForKey:@"footer"];
             if (footerView) {
                 return footerView;
-            } else if ([sectionInfo respondsToSelector:sectionInfo.makeFooterSel]) {
-                return NoWarningPerformSelector(sectionInfo, sectionInfo.makeFooterSel, sectionInfo);
+            } else if ([_delegate respondsToSelector:sectionInfo.makeFooterSel]) {
+                return NoWarningPerformSelector(_delegate, sectionInfo.makeFooterSel, sectionInfo, nil);
             } else {
                 NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
                 if (footerTitle) {
@@ -177,7 +184,7 @@
     if (section < _arrSections.count) {
         NSString *headerTitle = [self tableView:tableView titleForHeaderInSection:section];
         if (headerTitle) {
-            return [headerTitle sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
+            return [headerTitle pp_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
         } else {
             PPTableViewSectionInfo *sectionInfo = _arrSections[section];
             if (!sectionInfo.makeHeaderTarget) {
@@ -200,7 +207,7 @@
     if (section < _arrSections.count) {
         NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
         if (footerTitle) {
-            return [footerTitle sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
+            return [footerTitle pp_sizeWithFont:[UIFont systemFontOfSize:17.0f] maxWidth:_tableView.bounds.size.width maxHeight:CGFLOAT_MAX].height;
         } else {
             PPTableViewSectionInfo *sectionInfo = _arrSections[section];
             if (sectionInfo.makeFooterTatget) {
@@ -223,6 +230,10 @@
     if (indexPath.section < _arrSections.count) {
         if (indexPath.row < [_arrSections[indexPath.section] getCellCount]) {
             PPTableViewCellInfo *cellInfo = [_arrSections[indexPath.section] getCellAt:indexPath.row];
+            id target = cellInfo.calHeightTarget;
+            if (target && [target respondsToSelector:cellInfo.calHeightSel]) {
+                NoWarningPerformSelector(target, cellInfo.calHeightSel, cellInfo, nil);
+            }
             return cellInfo.fCellHeight;
         }
     }
@@ -237,7 +248,7 @@
             id target = cellInfo.actionTarget;
             if (target) {
                 if ([target respondsToSelector:cellInfo.actionSel]) {
-                    NoWarningPerformSelector(target, cellInfo.actionSel, cellInfo);
+                    NoWarningPerformSelector(target, cellInfo.actionSel, cellInfo ,nil);
                 }
             }
         }
@@ -398,20 +409,29 @@
     return _tableView;
 }
 
-- (void)removeAllSubviewsWithView:(UIView *)view
-{
-    for (UIView *subview in view.subviews) {
-        [subview removeFromSuperview];
-    }
-}
-
 + (UIView *)genHeaderView:(NSString *)headerTitle andIsUseDynamic:(BOOL)dynamic
 {
-    return nil;
+    return [self createHeaderOrFooterViewWithTitle:headerTitle];
 }
 
 + (UIView *)genFooterView:(NSString *)footerTitle
 {
-    return nil;
+    return [self createHeaderOrFooterViewWithTitle:footerTitle];
 }
+
++ (UIView *)createHeaderOrFooterViewWithTitle:(NSString *)title
+{
+    UIView *view = [[UIView alloc] init];
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont systemFontOfSize:14.0f];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.textColor = [UIColor grayColor];
+    label.text = title;
+    label.numberOfLines = 0;
+    label.frame = (CGRect){{15.0f, 0}, [title pp_sizeWithFont:label.font maxWidth:[UIScreen mainScreen].bounds.size.width maxHeight:CGFLOAT_MAX]};
+    [view addSubview:label];
+    view.frame = CGRectMake(0, 0, 0, CGRectGetHeight(label.frame));
+    return view;
+}
+
 @end
