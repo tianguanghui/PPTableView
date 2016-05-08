@@ -22,6 +22,7 @@
         return CGSizeZero;
     }
 }
+
 @end
 
 @implementation UIView (PPUtility)
@@ -33,6 +34,67 @@
 }
 
 @end
-@implementation PPCPLabel
+@implementation PPBadgeView
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        [self setUpView];
+    }
+    return self;
+}
+
+- (void)setUpView
+{
+    UILabel *label = [[UILabel alloc] init];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor redColor];
+    label.font = [UIFont systemFontOfSize:14.0f];
+    label.tag = 10032;
+    [self addSubview:label];
+    _pOriginPoint = CGPointZero;
+    _fAddedWidth = 20.0f;
+}
+
+- (UILabel *)labelView
+{
+    return [self viewWithTag:10032];
+}
+
+- (void)setValue:(NSUInteger)value
+{
+    if (value >= 100) {
+        [self setString:@(value).stringValue];
+    } else {
+        [self setString:[NSString stringWithFormat:@"%zd", value]];
+    }
+}
+
+- (void)setString:(NSString *)string
+{
+    if ([self isPureNumandCharacters:string]) {
+        
+    } else {
+        
+    }
+    
+}
+
+- (BOOL)isPureNumandCharacters:(NSString *)string
+{
+    if (string.length <= 1) {
+        NSCharacterSet *charecter = [NSCharacterSet decimalDigitCharacterSet];
+        string = [string stringByTrimmingCharactersInSet:charecter];
+        if (string.length == 0) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)setStringImage:(BOOL)b
+{
+    
+}
 
 @end

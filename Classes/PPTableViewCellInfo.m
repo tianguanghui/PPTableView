@@ -231,14 +231,17 @@
     }
     if (leftValue.length) {
         CGFloat margin = [[self getUserInfoValueForKey:@"fLeftValueMargin"] floatValue];
-        PPCPLabel *leftLabel = [[PPCPLabel alloc] init];
         if (leftValueColor) {
-            
-            
         }
     }
     if (imageName.length) {
         cell.imageView.image = [UIImage imageNamed:imageName];
+    }
+    NSString *badge = [self getUserInfoValueForKey:@"badge"];
+    if (badge.length) {
+        PPBadgeView *badgeView = [[PPBadgeView alloc] initWithFrame:CGRectZero];
+        [badgeView setString:badge];
+        [cell.contentView addSubview:badgeView];
     }
 }
 

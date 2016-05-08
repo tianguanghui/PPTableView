@@ -129,7 +129,7 @@
     imageView.image = [UIImage imageNamed:[cellInfo.userInfo getUserInfoValueForKey:@"imageName"]];
     [cell.contentView addSubview:imageView];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(cellInfo.fCellHeight + 20, 10, cell.frame.size.width, cellInfo.fCellHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(cellInfo.fCellHeight + 20, 0, cell.frame.size.width, cellInfo.fCellHeight)];
     label.text = [cellInfo.userInfo getUserInfoValueForKey:@"title"];
     label.textColor = [UIColor blueColor];
     [cell.contentView addSubview:label];
