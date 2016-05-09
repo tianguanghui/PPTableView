@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220016F11CE08CE900DC1C02 /* PPTableView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 220016F01CE08CE900DC1C02 /* PPTableView.bundle */; };
 		22720DE11CD9D0E2007752F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720DE01CD9D0E2007752F4 /* main.m */; };
 		22720DE41CD9D0E2007752F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720DE31CD9D0E2007752F4 /* AppDelegate.m */; };
 		22720DE71CD9D0E2007752F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720DE61CD9D0E2007752F4 /* ViewController.m */; };
@@ -16,11 +17,11 @@
 		22720E141CD9D128007752F4 /* PPTableViewCellInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E0C1CD9D128007752F4 /* PPTableViewCellInfo.m */; };
 		22720E151CD9D128007752F4 /* PPTableViewInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E0E1CD9D128007752F4 /* PPTableViewInfo.m */; };
 		22720E161CD9D128007752F4 /* PPTableViewSectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E101CD9D128007752F4 /* PPTableViewSectionInfo.m */; };
-		22720E171CD9D128007752F4 /* PPTableViewUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E121CD9D128007752F4 /* PPTableViewUserInfo.m */; };
 		22720E1A1CDB2352007752F4 /* PPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 22720E191CDB2352007752F4 /* PPUtility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		220016F01CE08CE900DC1C02 /* PPTableView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PPTableView.bundle; sourceTree = "<group>"; };
 		22720DDC1CD9D0E2007752F4 /* PPTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22720DE01CD9D0E2007752F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22720DE21CD9D0E2007752F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -38,8 +39,6 @@
 		22720E0E1CD9D128007752F4 /* PPTableViewInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewInfo.m; sourceTree = "<group>"; };
 		22720E0F1CD9D128007752F4 /* PPTableViewSectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableViewSectionInfo.h; sourceTree = "<group>"; };
 		22720E101CD9D128007752F4 /* PPTableViewSectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewSectionInfo.m; sourceTree = "<group>"; };
-		22720E111CD9D128007752F4 /* PPTableViewUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableViewUserInfo.h; sourceTree = "<group>"; };
-		22720E121CD9D128007752F4 /* PPTableViewUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewUserInfo.m; sourceTree = "<group>"; };
 		22720E181CDB2352007752F4 /* PPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUtility.h; sourceTree = "<group>"; };
 		22720E191CDB2352007752F4 /* PPUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUtility.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,10 +105,9 @@
 				22720E0E1CD9D128007752F4 /* PPTableViewInfo.m */,
 				22720E0F1CD9D128007752F4 /* PPTableViewSectionInfo.h */,
 				22720E101CD9D128007752F4 /* PPTableViewSectionInfo.m */,
-				22720E111CD9D128007752F4 /* PPTableViewUserInfo.h */,
-				22720E121CD9D128007752F4 /* PPTableViewUserInfo.m */,
 				22720E181CDB2352007752F4 /* PPUtility.h */,
 				22720E191CDB2352007752F4 /* PPUtility.m */,
+				220016F01CE08CE900DC1C02 /* PPTableView.bundle */,
 			);
 			path = Classes;
 			sourceTree = SOURCE_ROOT;
@@ -173,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22720DEF1CD9D0E2007752F4 /* LaunchScreen.storyboard in Resources */,
+				220016F11CE08CE900DC1C02 /* PPTableView.bundle in Resources */,
 				22720DEC1CD9D0E2007752F4 /* Assets.xcassets in Resources */,
 				22720DEA1CD9D0E2007752F4 /* Main.storyboard in Resources */,
 			);
@@ -192,7 +191,6 @@
 				22720E151CD9D128007752F4 /* PPTableViewInfo.m in Sources */,
 				22720DE11CD9D0E2007752F4 /* main.m in Sources */,
 				22720E1A1CDB2352007752F4 /* PPUtility.m in Sources */,
-				22720E171CD9D128007752F4 /* PPTableViewUserInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

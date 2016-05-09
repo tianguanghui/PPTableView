@@ -34,15 +34,27 @@
 
 - (void)createNormalSection
 {
-    PPTableViewCellInfo *normalCellInfo = [PPTableViewCellInfo normalCellForTitle:@"NormalCell" rightValue:@"1"];
+    PPTableViewCellInfo *normalCellInfo = [PPTableViewCellInfo normalCellForTitle:@"NormalCell" rightValue:@"right"];
     
-    PPTableViewCellInfo *normalCellInfo1 = [PPTableViewCellInfo normalCellForTitle:@"NormalCell1" rightValue:@"1" imageName:@"testImage"];
+    PPTableViewCellInfo *normalCellInfo1 = [PPTableViewCellInfo normalCellForTitle:@"NormalCell1" rightValue:@"😄" imageName:@"testImage"];
     
-    PPTableViewCellInfo *normalCellInfo2 = [PPTableViewCellInfo normalCellForSel:@selector(test) target:self title:@"NormalCell2" accessoryType:UITableViewCellAccessoryCheckmark];
+    PPTableViewCellInfo *normalCellInfo2 = [PPTableViewCellInfo normalCellForSel:@selector(cellInfo:)
+                                                                          target:self
+                                                                           title:@"NormalCell2"
+                                                                   accessoryType:UITableViewCellAccessoryCheckmark];
     
-    PPTableViewCellInfo *normalCellInfo3 = [PPTableViewCellInfo normalCellForSel:@selector(test) target:self title:@"NormalCell3" rightValue:@"1" accessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    PPTableViewCellInfo *normalCellInfo3 = [PPTableViewCellInfo normalCellForSel:@selector(cellInfo:)
+                                                                          target:self
+                                                                           title:@"NormalCell3"
+                                                                      rightValue:@"1"
+                                                                   accessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    PPTableViewCellInfo *normalCellInfo4 = [PPTableViewCellInfo normalCellForSel:@selector(test) target:self title:@"NormalCell4" rightValue:@"1" imageName:@"testImage" accessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    PPTableViewCellInfo *normalCellInfo4 = [PPTableViewCellInfo normalCellForSel:@selector(cellInfo:)
+                                                                          target:self
+                                                                           title:@"NormalCell4"
+                                                                      rightValue:@"1"
+                                                                       imageName:@"testImage"
+                                                                   accessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
     [sectionInfo addCell:normalCellInfo];
@@ -55,7 +67,7 @@
 
 - (void)createSwitchSection
 {
-    PPTableViewCellInfo *switchCellInfo = [PPTableViewCellInfo switchCellForSel:@selector(on) target:self title:@"SwitchCell" on:NO];
+    PPTableViewCellInfo *switchCellInfo = [PPTableViewCellInfo switchCellForSel:@selector(on:) target:self title:@"SwitchCell" on:NO];
     
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Switch"];
     [sectionInfo addCell:switchCellInfo];
@@ -64,13 +76,35 @@
 
 - (void)createEdtiorSection
 {
-    PPTableViewCellInfo *editorCellInfo = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:) target:self tip:@"placeholder" focus:NO text:nil];
+    PPTableViewCellInfo *editorCellInfo = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:)
+                                                                         target:self
+                                                                            tip:@"placeholder"
+                                                                          focus:NO
+                                                                           text:nil];
     
-    PPTableViewCellInfo *editorCellInfo1 = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:) target:self tip:@"placeholder" focus:NO autoCorrect:YES text:@"AutoCorrect"];
+    PPTableViewCellInfo *editorCellInfo1 = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:)
+                                                                          target:self
+                                                                             tip:@"placeholder"
+                                                                           focus:NO
+                                                                     autoCorrect:YES
+                                                                            text:@"AutoCorrect"];
     
-    PPTableViewCellInfo *editorCellInfo2 = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:) target:self title:@"Nickname:" margin:0 tip:@"placeholder" focus:NO text:@"DSKcpp"];
+    PPTableViewCellInfo *editorCellInfo2 = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:)
+                                                                          target:self
+                                                                           title:@"Nickname:"
+                                                                          margin:0
+                                                                             tip:@"placeholder"
+                                                                           focus:NO
+                                                                            text:@"DSKcpp"];
     
-    PPTableViewCellInfo *editorCellInfo3 = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:) target:self title:@"Password:" margin:0 tip:@"placeholder" focus:NO autoCorrect:NO text:nil];
+    PPTableViewCellInfo *editorCellInfo3 = [PPTableViewCellInfo editorCellForSel:@selector(textFieldReturn:)
+                                                                          target:self
+                                                                           title:@"Password:"
+                                                                          margin:0
+                                                                             tip:@"placeholder"
+                                                                           focus:NO
+                                                                     autoCorrect:NO
+                                                                            text:nil];
     [editorCellInfo3 addUserInfoValue:@(YES) forKey:@"secureTextEntry"];
     
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Editor"];
@@ -83,11 +117,23 @@
 
 - (void)createBadgeSection
 {
-    PPTableViewCellInfo *badgeCellInfo = [PPTableViewCellInfo badgeCellForSel:@selector(test) target:self title:@"Message" badge:@"99"];
+    PPTableViewCellInfo *badgeCellInfo = [PPTableViewCellInfo badgeCellForSel:@selector(cellInfo:)
+                                                                       target:self
+                                                                        title:@"Message"
+                                                                        badge:@"1"];
     
-    PPTableViewCellInfo *badgeCellInfo1 = [PPTableViewCellInfo badgeCellForSel:@selector(test) target:self title:@"Friend" badge:@"20" rightValue:@"DSKcpp"];
+    PPTableViewCellInfo *badgeCellInfo1 = [PPTableViewCellInfo badgeCellForSel:@selector(cellInfo:)
+                                                                        target:self
+                                                                         title:@"Friend"
+                                                                         badge:@"20"
+                                                                    rightValue:@"DSKcpp"];
     
-    PPTableViewCellInfo *badgeCellInfo2 = [PPTableViewCellInfo badgeCellForSel:@selector(test) target:self title:@"Title" badge:@"New" rightValue:@"Demo" imageName:@"testImage"];
+    PPTableViewCellInfo *badgeCellInfo2 = [PPTableViewCellInfo badgeCellForSel:@selector(cellInfo:)
+                                                                        target:self
+                                                                         title:@"Title"
+                                                                         badge:@"New"
+                                                                    rightValue:@"Demo"
+                                                                     imageName:@"testImage"];
     
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Badge Header" footer:@"Badge Footer"];
     [sectionInfo addCell:badgeCellInfo];
@@ -101,11 +147,26 @@
     PPTableViewUserInfo *userInfo = [[PPTableViewUserInfo alloc] init];
     [userInfo addUserInfoValue:@"testImage" forKey:@"imageName"];
     [userInfo addUserInfoValue:@"Custom Cell" forKey:@"title"];
-    PPTableViewCellInfo *customCellInfo = [PPTableViewCellInfo cellForMakeSel:@selector(makeCustomCell:cellInfo:) makeTarget:self height:50.0f userInfo:userInfo];
     
-    PPTableViewCellInfo *customCellInfo1 = [PPTableViewCellInfo cellForMakeSel:@selector(makeCustomCell:cellInfo:) makeTarget:self actionSel:@selector(test) actionTarget:self height:65.0f userInfo:userInfo];
+    PPTableViewCellInfo *customCellInfo = [PPTableViewCellInfo cellForMakeSel:@selector(makeCustomCell:cellInfo:)
+                                                                   makeTarget:self
+                                                                       height:50.0f
+                                                                     userInfo:userInfo];
     
-    PPTableViewCellInfo *customCellInfo2 = [PPTableViewCellInfo cellForMakeSel:@selector(makeCustomCell:cellInfo:) makeTarget:self actionSel:@selector(test) actionTarget:self calHeightSel:@selector(calCustinHeight:) calHeightTarget:self userInfo:userInfo];
+    PPTableViewCellInfo *customCellInfo1 = [PPTableViewCellInfo cellForMakeSel:@selector(makeCustomCell:cellInfo:)
+                                                                    makeTarget:self
+                                                                     actionSel:@selector(cellInfo:)
+                                                                  actionTarget:self
+                                                                        height:65.0f
+                                                                      userInfo:userInfo];
+    
+    PPTableViewCellInfo *customCellInfo2 = [PPTableViewCellInfo cellForMakeSel:@selector(makeCustomCell:cellInfo:)
+                                                                    makeTarget:self
+                                                                     actionSel:@selector(cellInfo:)
+                                                                  actionTarget:self
+                                                                  calHeightSel:@selector(calCustinHeight:)
+                                                               calHeightTarget:self
+                                                                      userInfo:userInfo];
     
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeaderWithView:[self makeCustomHeaderView]];
     [sectionInfo addCell:customCellInfo];
@@ -116,7 +177,7 @@
 
 - (void)createCenterSection
 {
-    PPTableViewCellInfo *centerCellInfo = [PPTableViewCellInfo centerCellForSel:@selector(test) target:self title:@"Center"];
+    PPTableViewCellInfo *centerCellInfo = [PPTableViewCellInfo centerCellForSel:@selector(cellInfo:) target:self title:@"Center"];
     
     PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Center"];
     [sectionInfo addCell:centerCellInfo];
@@ -125,11 +186,14 @@
 
 - (void)makeCustomCell:(UITableViewCell *)cell cellInfo:(PPTableViewCellInfo *)cellInfo
 {
+    cell.accessoryType = cellInfo.accessoryType;
+    cell.selectionStyle = cellInfo.selectionStyle;
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 0, cellInfo.fCellHeight, cellInfo.fCellHeight)];
     imageView.image = [UIImage imageNamed:[cellInfo.userInfo getUserInfoValueForKey:@"imageName"]];
     [cell.contentView addSubview:imageView];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(cellInfo.fCellHeight + 20, 0, cell.frame.size.width, cellInfo.fCellHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(cellInfo.fCellHeight + 20, 0, cell.frame.size.width - 20, cellInfo.fCellHeight)];
     label.text = [cellInfo.userInfo getUserInfoValueForKey:@"title"];
     label.textColor = [UIColor blueColor];
     [cell.contentView addSubview:label];
@@ -143,7 +207,7 @@
     button.backgroundColor = [UIColor whiteColor];
     [button setTitle:@"Custom Header" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(tappedHeader:) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(40, 5, self.view.frame.size.width - 80, 40.0f);
     [headerView addSubview:button];
     return headerView;
@@ -154,14 +218,19 @@
     cellInfo.fCellHeight = 88.0f;
 }
 
-- (void)test
+- (void)cellInfo:(PPTableViewCellInfo *)cellInfo
 {
-    NSLog(@"Test");
+    NSLog(@"%@", cellInfo);
 }
 
-- (void)on
+- (void)tappedHeader:(UIButton *)button
 {
-    NSLog(@"On");
+    NSLog(@"%@", button);
+}
+
+- (void)on:(UISwitch *)switchView
+{
+    NSLog(@"%d", switchView.isOn);
 }
 
 - (void)textFieldReturn:(UITextField *)textField

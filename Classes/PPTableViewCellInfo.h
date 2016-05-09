@@ -6,7 +6,7 @@
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPTableViewUserInfo.h"
+#import "PPUtility.h"
 
 @interface PPTableViewCellInfo : PPTableViewUserInfo
 @property (nonatomic, assign) UITableViewCellStyle cellStyle;

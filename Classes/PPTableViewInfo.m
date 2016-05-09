@@ -12,7 +12,7 @@
 #import "PPUtility.h"
 
 @interface PPTableViewInfo () <UITableViewDelegate, UITableViewDataSource, PPTableViewDelegate>
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) PPTableView *tableView;
 @property (nonatomic, strong) NSMutableArray<PPTableViewSectionInfo *> *arrSections;
 @end
 
@@ -20,9 +20,10 @@
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
 {
     if (self = [super init]) {
-        _tableView = [[UITableView alloc] initWithFrame:frame style:style];
+        _tableView = [[PPTableView alloc] initWithFrame:frame style:style];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.m_delegate = self;
         _arrSections = @[].mutableCopy;
     }
     return self;
@@ -32,6 +33,7 @@
 {
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
+    _tableView.m_delegate = nil;
 }
 
 #pragma mark - UITableView DataSource

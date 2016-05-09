@@ -15,6 +15,26 @@ _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
 [target performSelector:action withObject:object withObject:object1] \
 _Pragma("clang diagnostic pop") \
 
+@protocol PPTableViewDelegate <NSObject>
+@optional
+- (void)didFinishedLoading:(id)arg1;
+- (void)touchesEnded_TableView:(NSSet *)set withEvent:(UIEvent *)event;
+- (void)touchesMoved_TableView:(NSSet *)set withEvent:(UIEvent *)event;
+- (void)touchesBegan_TableView:(NSSet *)set withEvent:(UIEvent *)event;
+- (void)touchesCancelled_TableView:(NSSet *)set withEvent:(UIEvent *)event;
+@end
+
+@interface PPTableView : UITableView
+@property (nonatomic, weak) id<PPTableViewDelegate> m_delegate;
+@end
+
+@interface PPTableViewUserInfo : NSObject
+@property (nonatomic, strong) PPTableViewUserInfo *userInfo;
+
+- (id)getUserInfoValueForKey:(NSString *)key;
+- (void)addUserInfoValue:(id)value forKey:(NSString *)key;
+@end
+
 @interface NSString (PPUtility)
 - (CGSize)pp_sizeWithFont:(UIFont *)font maxWidth:(CGFloat)maxWidth maxHeight:(CGFloat)maxHeight;
 @end

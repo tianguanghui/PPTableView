@@ -199,48 +199,89 @@
     UIColor *leftValueColor = [self getUserInfoValueForKey:@"leftValueColor"];
     NSString *imageName = [self getUserInfoValueForKey:@"imageName"];
     
-    [cell setSelectionStyle:_selectionStyle];
-    [cell setAccessoryType:_accessoryType];
-    [cell.backgroundView setHidden:NO];
+    cell.selectionStyle = _selectionStyle;
+    cell.accessoryType = _accessoryType;
+    cell.backgroundView.hidden = NO;
+    
+    UIImageView *imageView = nil;
+    if (imageName.length) {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+        imageView.frame = CGRectMake(15.0f, (cell.frame.size.height - imageView.frame.size.height) * 0.5f, imageView.frame.size.width, imageView.frame.size.height);
+        [cell.contentView addSubview:imageView];
+    }
+    
+    UILabel *titleLabel = nil;
     if (title.length) {
-        cell.textLabel.text = title;
+        titleLabel = [[UILabel alloc] init];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.text = title;
         if (titleColor) {
-            cell.textLabel.textColor = titleColor;
+            titleLabel.textColor = titleColor;
+        } else {
+            titleLabel.textColor = [UIColor blackColor];
         }
         if (titleFont) {
-            cell.textLabel.font = titleFont;
+            titleLabel.font = titleFont;
+        } else {
+            titleLabel.font = [UIFont systemFontOfSize:17.0f];
         }
-        cell.textLabel.textAlignment = NSTextAlignmentLeft;
-        cell.textLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        titleLabel.textAlignment = NSTextAlignmentLeft;
+        titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [titleLabel sizeToFit];
+        titleLabel.frame = CGRectMake(15.0f + CGRectGetMaxX(imageView.frame), (cell.frame.size.height - titleLabel.frame.size.height) * 0.5f, titleLabel.frame.size.width, titleLabel.frame.size.height);
+        [cell.contentView addSubview:titleLabel];
     }
+    
+    UILabel *detailLabel = nil;
     if (detail.length) {
-        cell.detailTextLabel.text = detail;
+        detailLabel = [[UILabel alloc] init];
+        detailLabel.text = detail;
         if (detailColor) {
-            cell.detailTextLabel.textColor = detailColor;
+            detailLabel.textColor = detailColor;
+        } else {
+            detailLabel.textColor = [UIColor grayColor];
         }
         if (detailFont) {
-            cell.detailTextLabel.font = detailFont;
+            detailLabel.font = detailFont;
+        } else {
+            detailLabel.font = [UIFont systemFontOfSize:13.0f];
         }
-        cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
-        cell.detailTextLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        detailLabel.textAlignment = NSTextAlignmentLeft;
+        detailLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        [detailLabel sizeToFit];
+        detailLabel.frame = CGRectMake(CGRectGetMinX(titleLabel.frame), CGRectGetMaxY(titleLabel.frame), detailLabel.frame.size.width, detailLabel.frame.size.height);
+        [cell.contentView addSubview:detailLabel];
     }
+    
+    UILabel *rightLabel = nil;
     if (rightValue.length) {
+        rightLabel = [[UILabel alloc] init];
+        rightLabel.text = rightValue;
         if (rightValueColor) {
-            
+            rightLabel.textColor = rightValueColor;
+        } else {
+            rightLabel.textColor = [UIColor grayColor];
         }
+        [rightLabel sizeToFit];
+        CGFloat left = [UIScreen mainScreen].bounds.size.width - rightLabel.frame.size.width - 10.0f;
+        if (cell.accessoryType != UITableViewCellAccessoryNone) {
+            left -= 23.0f;
+        }
+        rightLabel.frame = CGRectMake(left, 0, rightLabel.frame.size.width, rightLabel.frame.size.height);
+        rightLabel.center = CGPointMake(rightLabel.center.x, titleLabel.center.y);
+        [cell.contentView addSubview:rightLabel];
     }
     if (leftValue.length) {
-        CGFloat margin = [[self getUserInfoValueForKey:@"fLeftValueMargin"] floatValue];
+//        CGFloat margin = [[self getUserInfoValueForKey:@"fLeftValueMargin"] floatValue];
         if (leftValueColor) {
         }
-    }
-    if (imageName.length) {
-        cell.imageView.image = [UIImage imageNamed:imageName];
     }
     NSString *badge = [self getUserInfoValueForKey:@"badge"];
     if (badge.length) {
         PPBadgeView *badgeView = [[PPBadgeView alloc] initWithFrame:CGRectZero];
         [badgeView setString:badge];
+        badgeView.frame = CGRectMake(CGRectGetMaxX(titleLabel.frame) + 15.0f, 0, badgeView.frame.size.width, badgeView.frame.size.height);
+        badgeView.center = CGPointMake(badgeView.center.x, titleLabel.center.y);
         [cell.contentView addSubview:badgeView];
     }
 }

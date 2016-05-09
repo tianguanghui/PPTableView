@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "PPTableView"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = ""
   s.description  = ""
 
@@ -14,4 +14,5 @@ Pod::Spec.new do |s|
   s.frameworks   = "Foundation", "UIKit"
 
   s.source_files = "Classes/*.{h,m}"
+  s.resources    = "Classes/PPTableView.bundle"
 end

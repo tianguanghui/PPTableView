@@ -6,19 +6,10 @@
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPTableViewUserInfo.h"
+#import "PPUtility.h"
 
 @class PPTableViewSectionInfo;
 @class PPTableViewCellInfo;
-
-@protocol PPTableViewDelegate <NSObject>
-@optional
-- (void)didFinishedLoading:(id)arg1;
-- (void)touchesEnded_TableView:(NSSet *)set withEvent:(UIEvent *)event;
-- (void)touchesMoved_TableView:(NSSet *)set withEvent:(UIEvent *)event;
-- (void)touchesBegan_TableView:(NSSet *)set withEvent:(UIEvent *)event;
-- (void)touchesCancelled_TableView:(NSSet *)set withEvent:(UIEvent *)event;
-@end
 
 @protocol PPTableViewInfoDelegate <NSObject, UIScrollViewDelegate, PPTableViewDelegate>
 @optional
