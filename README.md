@@ -21,7 +21,7 @@ API 完全模仿，代码的实现靠逆向猜出来，我估计相似度有 80%
 
 ## Use
 
-Detail see `PPAlertController.xcodeproj
+Detail see `PPTableView.xcodeproj
 
 ### Init
 
@@ -49,7 +49,7 @@ Detail see `PPAlertController.xcodeproj
 ### Section 
 
 ```objective-c
-PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Editor"];
+PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Normal"];
 [sectionInfo addCell:normalCellInfo];
 [_tableViewInfo addSection:sectionInfo];
 ```
