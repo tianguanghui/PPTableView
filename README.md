@@ -21,6 +21,10 @@ API 完全模仿，代码的实现靠逆向猜出来，我估计相似度有 80%
 
 ## Use
 
+Detail see `PPAlertController.xcodeproj
+
+### Init
+
 ```objective-c
 - (void)viewDidLoad
 {
@@ -28,20 +32,33 @@ API 完全模仿，代码的实现靠逆向猜出来，我估计相似度有 80%
     
     _tableViewInfo = [[PPTableViewInfo alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.view addSubview:[_tableViewInfo getTableView]];
-  
-	PPTableViewCellInfo *normalCellInfo = [PPTableViewCellInfo normalCellForSel:@selector(test) target:self title:@"NormalCell" rightValue:@"rightText" imageName:@"icon" accessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoDefault];
-    [sectionInfo addCell:normalCellInfo];
-    [_tableViewInfo addSection:sectionInfo];
 }
 ```
 
+### Normal Cell
+
+```objective-c
+    PPTableViewCellInfo *normalCellInfo = [PPTableViewCellInfo normalCellForSel:@selector(cellInfo:)
+                                                                          target:self
+                                                                           title:@"NormalCell"
+                                                                      rightValue:@"right"
+                                                                       imageName:@"testImage"
+                                                                   accessoryType:UITableViewCellAccessoryDisclosureIndicator];
+```
+
+### Section 
+
+```objective-c
+PPTableViewSectionInfo *sectionInfo = [PPTableViewSectionInfo sectionInfoHeader:@"Editor"];
+[sectionInfo addCell:normalCellInfo];
+[_tableViewInfo addSection:sectionInfo];
+```
+
+
+
 ![img](http://ww3.sinaimg.cn/large/9bffd8f9jw1f3p8pxli8yj20r218iwim.jpg)
 
-![img](http://ww2.sinaimg.cn/mw690/9bffd8f9jw1f3p8pxpzv0j20r218idkn.jpg)
-
-
-Detail see `PPAlertController.xcodeproj`
+![img](http://ww2.sinaimg.cn/large/9bffd8f9jw1f3p8pxpzv0j20r218idkn.jpg)
 
 ## Requirements
 
