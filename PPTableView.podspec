@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name         = "PPTableView"
   s.version      = "1.0.1"
-  s.summary      = ""
-  s.description  = ""
+  s.summary      = "PPTableView"
+  s.description  = "PPTableView"
 
   s.homepage     = "https://github.com/DSKcpp/PPTableView"
   s.license      = { :type => "MIT", :file => "LICENSE" }
